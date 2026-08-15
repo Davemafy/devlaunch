@@ -6,6 +6,9 @@ DevLaunch is a Windows desktop app for capturing a workspace and restoring it la
 
 Instead of reopening the same apps, browser pages, projects and tools every time you come back to something, DevLaunch saves that setup as a workspace you can restore when you need it again.
 
+<img width="1082" height="608" alt="image" src="https://github.com/user-attachments/assets/52929fa9-a77b-4737-bb69-75778fd68c56" />
+
+
 ## What it does
 
 * Captures currently open apps and workspace resources
