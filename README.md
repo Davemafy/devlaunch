@@ -1,66 +1,94 @@
 # DevLaunch
 
-Save what is open. Bring it back anytime.
+**Save what is open. Bring it back later.**
 
-DevLaunch is a Windows desktop workspace launcher for developers who repeatedly reopen the same editor, terminal commands, browser pages, tools, and window layout.
+DevLaunch is a Windows desktop app for capturing a workspace and restoring it later in one action.
+
+Instead of reopening the same apps, browser pages, projects and tools every time you come back to something, DevLaunch saves that setup as a workspace you can restore when you need it again.
 
 ## What it does
 
-- Saves reusable development workspaces
-- Starts commands in dependency order
-- Opens editors, external tools, and browser URLs
-- Waits for HTTP, TCP, or process health checks
-- Tracks processes started by DevLaunch
-- Stops, restarts, or focuses a running workspace
-- Captures and restores window positions across multiple monitors
-- Supports workspace modes, desktop shortcuts, the system tray, and keyboard launching
+* Captures currently open apps and workspace resources
+* Saves captured workspaces locally
+* Restores multiple apps and resources from one action
+* Lets you keep different workspaces for different projects or tasks
+* Runs as a Windows desktop app using Electron
 
-## Stack
+The basic idea is simple:
 
-- Electron
-- React
-- TypeScript
-- electron-vite
-- electron-store
-- Zod
+```text
+Open everything you need
+        ↓
+      Capture
+        ↓
+   Save workspace
+        ↓
+ Close everything
+        ↓
+      Restore
+        ↓
+ Continue where you left off
+```
 
-## Development
+## Why I built it
 
-DevLaunch currently targets Windows.
+I kept reopening the same development setup whenever I returned to a project.
+
+VS Code, terminal, browser pages, localhost, design tools and whatever else I was using.
+
+Bookmarks could save links, but not the whole working context. I wanted something closer to a save button for the desktop.
+
+That became DevLaunch.
+
+## Current status
+
+DevLaunch is still in development.
+
+The capture and restore flow works, but I am still improving how reliably different applications and browser sessions come back, especially across cold starts and different app states.
+
+Some of the problems I am currently working through include:
+
+* restoring browser sessions with the correct profile
+* reopening multiple resources without creating unnecessary windows
+* improving application detection during capture
+* cleaning up Electron processes correctly when DevLaunch exits
+
+## Tech
+
+* Electron
+* TypeScript
+* Node.js
+* Local persistence
+* Windows process APIs
+
+## Run locally
 
 ```bash
+git clone https://github.com/Davemafy/devlaunch.git
+cd devlaunch
 npm install
 npm run dev
 ```
 
-Run validation:
+## Build
 
 ```bash
-npm run typecheck
-npm test
 npm run build
 ```
 
-Create Windows packages:
+## Project structure
 
-```bash
-npm run package:win
+```text
+devlaunch/
+├── src/          # application source
+├── tests/        # capture and restore tests
+├── build/        # desktop build assets
+├── .github/      # GitHub configuration
+└── package.json
 ```
 
-Packaged files are written to `release/`.
+## Direction
 
-## Repository status
+The goal is not only to restore a development environment.
 
-This repository starts from the last complete, buildable TypeScript source snapshot: **v1.1.0**.
-
-DevLaunch was tested further through runtime patch builds up to v2.2.2. Those patches improved open-app capture, staged restore, browser grouping and profiles, Store-app activation, shortcut icons, overflow handling, and shutdown reliability. Because those iterations were produced against packaged output, they are being ported back into TypeScript before they are represented here as source.
-
-The repository deliberately does not claim that compiled-only changes are maintainable source code.
-
-## Privacy
-
-Workspace definitions and launch history stay on the user's machine. Personal workspace data, browser data, local paths, and generated release artifacts are excluded from the repository.
-
-## Licence
-
-MIT © David Imafidon
+DevLaunch is meant to capture a working context, save it, and bring it back later without making you rebuild that setup manually every time.
