@@ -1,0 +1,65 @@
+{
+  "name": "devlaunch",
+  "version": "1.1.0",
+  "private": true,
+  "description": "Restore an entire Windows development workspace with one click.",
+  "main": "out/main/index.js",
+  "author": "David Imafidon",
+  "license": "MIT",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "typecheck": "tsc --noEmit",
+    "test:phase1": "esbuild tests/phase1.test.ts --bundle --platform=node --format=esm --outfile=.test-build/phase1.test.mjs && node --test .test-build/phase1.test.mjs",
+    "test:phase2": "esbuild tests/phase2.test.ts --bundle --platform=node --format=esm --outfile=.test-build/phase2.test.mjs && node --test .test-build/phase2.test.mjs",
+    "test:phase3": "esbuild tests/phase3.test.ts --bundle --platform=node --format=esm --outfile=.test-build/phase3.test.mjs && node --test .test-build/phase3.test.mjs",
+    "test:phase4": "esbuild tests/phase4.test.ts --bundle --platform=node --format=esm --outfile=.test-build/phase4.test.mjs && node --test .test-build/phase4.test.mjs",
+    "test": "npm run test:phase1 && npm run test:phase2 && npm run test:phase3 && npm run test:phase4",
+    "package:win": "npm run build && electron-builder --win nsis portable",
+    "package:dir": "npm run build && electron-builder --dir"
+  },
+  "dependencies": {
+    "electron-store": "^10.0.1",
+    "lucide-react": "^0.468.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "electron-vite": "^2.3.0",
+    "typescript": "^5.7.2",
+    "vite": "^5.4.11"
+  },
+  "build": {
+    "appId": "dev.devlaunch.app",
+    "productName": "DevLaunch",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "out/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "artifactName": "DevLaunch-${version}-${arch}.${ext}",
+      "icon": "build/icon.ico",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  }
+}
